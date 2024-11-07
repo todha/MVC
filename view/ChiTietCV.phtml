@@ -1,0 +1,70 @@
+<h1>THÔNG TIN CÔNG VIỆC</h1>
+<hr />
+
+<?php
+if (isset($data)) ?>
+
+<div class="card" style="width: auto">
+  <div class="card-body">
+    <h5 class="card-title"><?= $data->name ?></h5>
+    <p class="card-text"><?= $data->description ?></p>
+    <p class="card-text">Ngày bắt đầu: <?= $data->start_date ?></p>
+    <p class="card-text">Ngày hết hạn: <?= $data->due_date ?></p>
+    <p class="card-text">Trạng thái: <?= $data->status ?></p>
+    <p class="card-text">Loại công việc: <?= $cate_name_by_id ?></p>
+    <p class="card-text">Ngày hoàn thành: <?= $data->finished_date ?></p>
+    <div class="card-body">
+      <!-- Form để cập nhật công việc -->
+      <form method="POST">
+        <input type="hidden" name="action" value="update_task" />
+        <!-- Thêm các trường input ẩn để gửi các thông tin cần thiết -->
+        <input type="hidden" name="id" value="<?= $data->id ?>">
+        <div class="col">
+          <div class="form-group mb-3">
+            <span class="form-group-text">Tên công việc:</span>
+            <input type="text" id="name" name="name" class="form-control">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group mb-3">
+            <span class="form-group-text">Mô tả:</span>
+            <textarea class="form-control" id="description" name="description" aria-label="With textarea"></textarea>
+          </div>
+        </div>
+        <!-- Thêm các trường input cho các thông tin có thể được cập nhật -->
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group mb-3">
+              <span class="form-group-text">Ngày bắt đầu: </span>
+              <input type="date" class="form-control" id="start_date" name="start_date">
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group mb-3">
+              <span class="form-group-text">Ngày hết hạn: </span>
+              <input type="date" class="form-control" id="due_date" name="due_date">
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group mb-3">
+            <span class="form-group-text">Loại công việc: </span>
+            <select class="form-select" id="category_id" name="category_id">
+              <option selected disabled value="">Chọn loại công việc</option>
+              <?php foreach ($cate_data as $item) : ?>
+                <option value=<?php echo $item->id ?>><?php echo $item->name ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+
+        </div>
+        <div class="card-body text-center">
+          <button type="submit" class="btn btn-outline-info m-1">Cập nhật</button>
+          <a href="index.php?action=task_list" class="btn btn-outline-info m-1" role="button">Quay về</a>
+        </div>
+      </form>
+    </div>
+
+
+  </div>
+</div>

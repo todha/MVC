@@ -1,0 +1,45 @@
+<div class="sidebox">
+    <h2>Giới thiệu</h2>
+    <div class="vmenu">
+        <ul>
+            <li>
+                Hướng dẫn lập trình CSDL với PHP và MySQL
+            </li>
+            <li>
+                TODO LIST
+            </li>
+            <li>
+                Tran Thi Thu Ha - 20120466
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="my-3">
+    <h4>Danh mục loại công việc</h4>
+    <?php
+    require_once("././model/LoaiCongViec.php");
+    // Gọi hàm listAll() từ LoaiCongViec.php để lấy dữ liệu
+    $loaiCongViecData = LoaiCongViecModel::listAll();
+    ?>
+    <ol class="list-group list-group-numbered">
+    <?php foreach ($loaiCongViecData as $item) : ?>
+        <a href="index.php?action=cate_search&cate_id=<?php echo $item->id; ?>" class="list-group-item list-group-item-action">
+        <?php echo $item->name; ?>
+            <span class="badge bg-primary rounded-pill"><?php echo LoaiCongViecModel::count_task($item->id) ?></span>
+        </a>
+<?php endforeach; ?>
+
+    </ol>
+
+</div>
+<div class="sidebox">
+    <h4>Các chức năng</h4>
+    <div class="list-group">
+       <a href="index.php" class="list-group-item list-group-item-action">Trang chủ</a>
+       <a href="index.php?action=task_list" class="list-group-item list-group-item-action">Xem danh sách công việc</a>
+       <a href="index.php?action=cate_list" class="list-group-item list-group-item-action">Xem danh sách loại công việc</a>
+       <a href="index.php?action=add_task" class="list-group-item list-group-item-action">Thêm công việc</a>
+    </div>
+</div>

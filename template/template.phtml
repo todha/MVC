@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <?php require("include/meta.phtml"); ?>
+</head>
+
+<body>
+    <div class="container  mt-5">
+        <div id="header"></div>
+        <div id="topbar"></div>
+        <div class="row">
+            <div class="col-9">
+                <div id="content">
+                    <!-- ------------------------------------ -->
+                    <!-- ------------------------------------ -->
+                    <!-- BEGIN: Nội dung chính của trang web  -->
+                    <div id="primary">
+                        <?php require($VIEW); ?>
+                    </div>
+                    <!-- END: Nội dung chính của trang web  -->
+                    <!-- ------------------------------------ -->
+                    <!-- ------------------------------------ -->
+                </div>
+            </div>
+            <div class="col-3">
+                <div id="secondary">
+                    <?php require("include/secondary.phtml"); ?>
+                </div>
+            </div>
+        </div>
+    <div id="footer"></div>
+    </div>
+</body>
+
+</html>

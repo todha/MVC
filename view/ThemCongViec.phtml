@@ -1,0 +1,54 @@
+<h3>Thêm mới công việc</h3>
+<hr />
+
+<form method="POST">
+    <input type="hidden" name="action" value="add_task" />
+    <div class="col">
+        <div class="form-group mb-3">
+            <span class="form-group-text">Tên công việc:</span>
+            <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group mb-3">
+            <span class="form-group-text">Mô tả:</span>
+            <textarea class="form-control" id="description" name="description" aria-label="With textarea" required></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group mb-3">
+                <span class="form-group-text">Ngày bắt đầu: </span>
+                <input type="date" class="form-control" id="start_date" name="start_date" required>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group mb-3">
+                <span class="form-group-text">Ngày hết hạn: </span>
+                <input type="date" class="form-control" id="due_date" name="due_date" required>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="form-group mb-3">
+            <span class="form-group-text">Loại công việc: </span>
+            <select class="form-select" id="category_id" name="category_id" required>
+                <option selected disabled value="">Chọn loại công việc</option>
+                <?php foreach ($cate_data as $item) : ?>
+                    <option value=<?php echo $item->id ?>><?php echo $item->name ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="col-12 text-center mb-3">
+        <button class="btn btn-outline-success" type="submit">Thêm công việc</button>
+    </div>
+    <?php
+    if (isset($data) && $data != "") {
+        echo $data;
+    }
+    ?>
+</form>

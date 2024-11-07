@@ -1,0 +1,113 @@
+<h3>Danh sách công việc</h3>
+<hr />
+
+<?php
+// Số lượng dữ liệu trên mỗi trang
+$itemsPerPage = 6;
+
+// Tính tổng số trang
+$totalPages = ceil(count($data) / $itemsPerPage);
+
+// Trang hiện tại (mặc định là trang 1 nếu không có trang nào được chọn)
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Tính chỉ mục bắt đầu và kết thúc của dữ liệu cho trang hiện tại
+$startIndex = ($current_page - 1) * $itemsPerPage;
+$endIndex = min($startIndex + $itemsPerPage - 1, count($data) - 1);
+?>
+<div class="d-flex justify-content-end mx-3">
+    <form action="index.php" method="get">
+        <input type="text" name="keyword" />
+        <input type="submit" value="Search" class="btn btn-outline-info" />
+        <input type="hidden" name="action" value="search" />
+    </form>
+    <form action="index.php" method="get">
+        <select name="status" onchange="this.form.submit()" class="form-select mx-3">
+            <option selected>Chọn trạng thái</option>
+            <option value="All">All</option>
+            <option value="TODO">TODO</option>
+            <option value="IN PROGRESS">IN PROGRESS</option>
+            <option value="FINISHED">FINISHED</option>
+        </select>
+        <input type="hidden" name="action" value="status_search" />
+        <input type="submit" style="display: none;" />
+    </form>
+</div>
+
+<table class="table table-striped table-hover align-middle">
+    <thead>
+        <tr>
+        <th scope="col" style="width: 3%">#</th>
+            <th scope="col" style="width: 25%">Tên Công Việc</th>
+            <th scope="col" style="width: 40%">Mô tả</th>
+            <th scope="col" style="width: 15%">Trạng thái</th>
+            <th scope="col" style="width: 17%"></th> <!-- Thêm cột cho ô checkbox -->
+        </tr>
+    </thead>
+    <tbody>
+        <?php for ($i = $startIndex; $i <= $endIndex; $i++) : ?>
+            <tr>
+                <th scope="row"><?php echo $i + 1; ?></th>
+                <td><?php echo $data[$i]->name; ?></td>
+                <td><?php echo $data[$i]->description; ?></td>
+                <td>
+                    <!-- Select box cho trạng thái -->
+                    <select class="status-select" data-task-id="<?php echo $data[$i]->id; ?>">
+                        <option value="" <?php echo ($data[$i]->status == 0) ? 'selected' : ''; ?>></option>
+                        <option value="TODO" <?php echo ($data[$i]->status == 'TODO') ? 'selected' : ''; ?>>TODO</option>
+                        <option value="IN PROGRESS" <?php echo ($data[$i]->status == 'IN PROGRESS') ? 'selected' : ''; ?>>IN PROGRESS</option>
+                        <option value="FINISHED" <?php echo ($data[$i]->status == 'FINISHED') ? 'selected' : ''; ?>>FINISHED</option>
+                    </select>
+                </td>
+                <td>
+                    <a class="btn btn-outline-info mx-1" href="index.php?action=show_task&id=<?php echo $data[$i]->id; ?>" role="button">Xem</a>
+                    <a class="btn btn-outline-danger mx-1" href="index.php?action=delete_task&id=<?php echo $data[$i]->id; ?>" role="button">Xóa</a>
+                </td>
+            </tr>
+        <?php endfor; ?>
+    </tbody>
+</table>
+<a class="btn btn-outline-success" href="index.php?action=add_task" role="button"> + Thêm mới công việc</a>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+        <li class="page-item">
+            <a class="page-link" href="index.php?action=task_list&page=1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <?php for ($page = 1; $page <= $totalPages; $page++) : ?>
+            <li class="page-item<?php echo ($current_page == $page) ? ' active' : ''; ?>">
+                <a class="page-link" href="index.php?action=task_list&page=<?php echo $page; ?>"><?php echo $page; ?></a>
+            </li>
+        <?php endfor; ?>
+        <a class="page-link" href="index.php?action=task_list&page=<?php echo $totalPages; ?>" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+        </li>
+    </ul>
+</nav>
+
+<script>
+    $(document).ready(function() {
+        $(".status-select").change(function() {
+            var taskId = $(this).data("taskId"); // Get task ID from data attribute
+            var newStatus = $(this).val(); // Get selected status option value
+            // Send AJAX request to update status
+            $.ajax({
+                url: "index.php?action=update_status", // Update status action URL
+                type: "POST",
+                data: {
+                    taskId: taskId,
+                    newStatus: newStatus
+                },
+                success: function(response) {
+                    // ... handle success response ...
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error:", textStatus, errorThrown); // Log errors
+                }
+            });
+        });
+    });
+</script>

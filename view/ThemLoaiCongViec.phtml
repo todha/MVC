@@ -1,0 +1,21 @@
+<h3>Thêm mới loại công việc</h3>
+<hr />
+
+<form method="POST">
+    <input type="hidden" name="action" value="add_cate" />
+    <div class="col">
+        <div class="form-group mb-3">
+            <span class="form-group-text">Tên loại công việc:</span>
+            <textarea class="form-control" name="name" aria-label="With textarea" required></textarea>
+        </div>
+    </div>
+
+    <div class="col-12 text-center mb-3">
+        <button class="btn btn-outline-success" type="submit">Thêm loại công việc</button>
+    </div>
+    <?php
+    if (isset($data) && $data != "") {
+        echo $data;
+    }
+    ?>
+</form>
